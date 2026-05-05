@@ -1,8 +1,9 @@
 (class_definition
-  name: (identifier) @name) @item
-
-(trait_definition
-  name: (identifier) @name) @item
+    "class" @context
+    name: (identifier) @name
+    ) @item
 
 (function_definition
-  name: (identifier) @name) @item
+    "async"? @context
+    "def" @context
+    name: (_) @name) @item

@@ -1,47 +1,40 @@
-; Definitions
+; adapted from Zed's Python Config
+; https://github.com/zed-industries/zed/blob/6657e301cd0ee9e7b7b5352957ef30728ae2a874/crates/languages/src/python/highlights.scm
+(attribute attribute: (identifier) @property)
+(type (identifier) @type)
+
+
+; Function calls
+
+(decorator) @function
+(decorator
+  (identifier) @function)
+
+(call
+  function: (attribute attribute: (identifier) @function.method))
+(call
+  function: (identifier) @function)
+
+; Function definitions
 
 (function_definition
   name: (identifier) @function)
 
-(class_definition
-  name: (identifier) @type)
-
-(trait_definition
-  name: (identifier) @type)
-
-(decorator) @function
-
-; Calls and attributes
-
-(call
-  function: (identifier) @function)
-
-(call
-  function: (attribute
-    attribute: (identifier) @function.method))
-
-(attribute
-  attribute: (identifier) @property)
-
-; Types and naming conventions
-
-(type (identifier) @type)
+; Identifier naming conventions
 
 ((identifier) @type
-  (#match? @type "^[A-Z]"))
+ (#match? @type "^[A-Z]"))
 
 ((identifier) @constant
-  (#match? @constant "^_*[A-Z][A-Z\\d_]*$"))
+ (#match? @constant "^_*[A-Z][A-Z\\d_]*$"))
 
-((identifier) @variable.special
-  (#match? @variable.special "^(self|Self|__owned|__origin_of)$"))
-
-((identifier) @type.builtin
-  (#match? @type.builtin "^(AnyType|Bool|Boolable|CollectionElement|Copyable|DType|Dict|DynamicVector|Float16|Float32|Float64|FloatLiteral|Hashable|ImplicitlyCopyable|IndexList|Int|Int8|Int16|Int32|Int64|IntLiteral|List|Movable|NoneType|Optional|PythonObject|SIMD|Scalar|Set|String|Tuple|UInt|UInt8|UInt16|UInt32|UInt64|UnsafePointer|Variant)$"))
+; Builtin functions
 
 ((call
   function: (identifier) @function.builtin)
-  (#match? @function.builtin "^(abs|all|any|ascii|bin|bool|breakpoint|chr|compile|constrained|debug_assert|dict|dir|enumerate|eval|exec|float|format|getattr|hasattr|hash|hex|id|int|isinstance|issubclass|len|list|max|min|object|ord|print|range|repr|round|set|str|sum|tuple|type|unroll|zip|__import__|__mlir_attr|__mlir_op|__mlir_type)$"))
+ (#match?
+   @function.builtin
+   "^(abs|all|always_inline|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|classmethod|compile|complex|constrained|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unroll|vars|zip|__mlir_attr|__mlir_op|__mlir_type|__import__)$"))
 
 ; Literals
 
@@ -58,9 +51,7 @@
 
 (comment) @comment
 (string) @string
-(escape_sequence) @string.escape
-
-; Punctuation and operators
+(escape_sequence) @escape
 
 [
   "("
@@ -71,15 +62,17 @@
   "}"
 ] @punctuation.bracket
 
-[
-  ","
-  "."
-  ":"
-] @punctuation.delimiter
-
 (interpolation
   "{" @punctuation.special
-  "}" @punctuation.special)
+  "}" @punctuation.special) @embedded
+
+; Docstrings.
+(function_definition
+  "async"?
+  "def"
+  name: (_)
+  (parameters)?
+  body: (block (expression_statement (string) @string.doc)))
 
 [
   "-"
@@ -124,15 +117,14 @@
 
 [
   "as"
+  "comptime"
   "assert"
   "async"
   "await"
   "borrowed"
   "break"
   "capturing"
-  "case"
   "class"
-  "comptime"
   "continue"
   "def"
   "del"
@@ -141,6 +133,7 @@
   "else"
   "escaping"
   "except"
+  "exec"
   "finally"
   "fn"
   "for"
@@ -150,40 +143,38 @@
   "import"
   "inout"
   "lambda"
-  "match"
-  "mut"
   "nonlocal"
   "owned"
   "out"
   "pass"
+  "print"
   "raise"
   "raises"
-  "read"
   "ref"
   "return"
   "struct"
   "trait"
   "try"
-  "unified"
   "var"
   "while"
-  "where"
   "with"
   "yield"
+  "match"
+  "case"
+  "where"
 ] @keyword
 
-; MLIR literals embedded in Mojo.
-
-(mlir_type "!" @punctuation.special)
-(mlir_type ">" @punctuation.special)
-(mlir_type "<" @punctuation.special)
-(mlir_type "->" @punctuation.special)
-(mlir_type "(" @punctuation.special)
-(mlir_type ")" @punctuation.special)
-(mlir_type "." @punctuation.special)
-(mlir_type ":" @punctuation.special)
-(mlir_type "+" @punctuation.special)
-(mlir_type "-" @punctuation.special)
-(mlir_type "*" @punctuation.special)
-(mlir_type "," @punctuation.delimiter)
+(mlir_type "!" @punctuation.special (#set! "priority" 110))
+(mlir_type ">" @punctuation.special (#set! "priority" 110))
+(mlir_type "<" @punctuation.special (#set! "priority" 110))
+(mlir_type "->" @punctuation.special (#set! "priority" 110))
+(mlir_type "(" @punctuation.special (#set! "priority" 110))
+(mlir_type ")" @punctuation.special (#set! "priority" 110))
+(mlir_type "." @punctuation.special (#set! "priority" 110))
+(mlir_type ":" @punctuation.special (#set! "priority" 110))
+(mlir_type "+" @punctuation.special (#set! "priority" 110))
+(mlir_type "-" @punctuation.special (#set! "priority" 110))
+(mlir_type "*" @punctuation.special (#set! "priority" 110))
+(mlir_type "," @punctuation (#set! "priority" 110))
 (mlir_type) @type
+; (argument_convention) @keyword
