@@ -1,0 +1,11 @@
+id = "mojo-syntax"
+name = "Mojo Syntax"
+description = "Mojo syntax highlighting and language configuration for Zed."
+version = "0.0.1"
+schema_version = 1
+authors = ["zed-mojo contributors"]
+repository = "https://github.com/USBashka/zed-mojo-syntax"
+
+[grammars.mojo]
+repository = "https://github.com/lsh/tree-sitter-mojo"
+commit = "03966fb3f209bea86844aab3bd0f2158a5a8bb8d"
