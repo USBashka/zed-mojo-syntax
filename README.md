@@ -7,8 +7,10 @@ This extension intentionally contains no Rust code and no language-server integr
 - `.mojo` and `.🔥` file detection
 - Tree-sitter syntax highlighting through a Mojo grammar generated with
   tree-sitter ABI 14 for Zed compatibility
-
-The extension is intentionally minimal while Mojo parser stability in Zed is validated. It does not currently ship outline, bracket, indentation, task, runnable, or LSP integration.
+- Outline entries for functions, structs/classes, and traits
+- Bracket matching and indentation queries
+- Task templates for `mojo run`, `mojo build`, and `mojo format`
+- Runnable detection for `main`
 
 ## Why no Rust?
 
@@ -26,3 +28,13 @@ def main():
 ```
 
 The syntax highlighter may still recognize legacy `fn` code because existing Mojo code can contain it.
+
+## Tasks
+
+Open `task: spawn` in a Mojo file to run:
+
+- `mojo run $ZED_FILENAME`
+- `mojo build $ZED_FILENAME`
+- `mojo format $ZED_FILENAME`
+
+Files containing a `main` function are tagged as `mojo-main`, so Zed can attach runnable actions to the `mojo run` task where supported.
