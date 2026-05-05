@@ -51,7 +51,7 @@
 
 (comment) @comment
 (string) @string
-(escape_sequence) @escape
+(escape_sequence) @string.escape
 
 [
   "("
@@ -72,7 +72,7 @@
   "def"
   name: (_)
   (parameters)?
-  body: (block (expression_statement (string) @string.doc)))
+  body: (block (expression_statement (string) @string)))
 
 [
   "-"

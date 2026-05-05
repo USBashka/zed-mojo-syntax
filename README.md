@@ -6,16 +6,14 @@ This extension intentionally contains no Rust code and no language-server integr
 
 - `.mojo` and `.🔥` file detection
 - Tree-sitter syntax highlighting
-- Outline entries for functions, structs/classes, and traits
-- Bracket matching and indentation queries
-- Task templates for `mojo run`, `mojo build`, and `mojo format`
-- Runnable detection for `def main`
+
+The extension is intentionally minimal while Mojo parser stability in Zed is validated. It does not currently ship outline, bracket, indentation, task, runnable, or LSP integration.
 
 ## Why no Rust?
 
 Zed extensions need Rust only when they execute extension logic, such as launching and configuring an LSP server. This repository has no `Cargo.toml` and no `src/lib.rs`, so it does not build an extension WebAssembly module.
 
-Zed still uses the tree-sitter grammar declared in `extension.toml` for parsing and highlighting Mojo files.
+Zed still uses the tree-sitter grammar declared in `extension.toml` for parsing and highlighting `.mojo` files.
 
 ## Mojo Syntax Note
 
@@ -27,13 +25,3 @@ def main() raises:
 ```
 
 The syntax highlighter may still recognize legacy `fn` code because existing Mojo code can contain it.
-
-## Tasks
-
-Open `task: spawn` in a Mojo file to run:
-
-- `mojo run $ZED_FILENAME`
-- `mojo build $ZED_FILENAME`
-- `mojo format $ZED_FILENAME`
-
-Files containing a `main` function are tagged as `mojo-main`, so Zed can attach runnable actions to the `mojo run` task where supported.
