@@ -5,7 +5,8 @@ Syntax-only Mojo support for the Zed editor.
 This extension intentionally contains no Rust code and no language-server integration. It provides only declarative Zed language features:
 
 - `.mojo` and `.🔥` file detection
-- Tree-sitter syntax highlighting
+- Tree-sitter syntax highlighting through a Mojo grammar generated with
+  tree-sitter ABI 14 for Zed compatibility
 
 The extension is intentionally minimal while Mojo parser stability in Zed is validated. It does not currently ship outline, bracket, indentation, task, runnable, or LSP integration.
 
@@ -20,7 +21,7 @@ Zed still uses the tree-sitter grammar declared in `extension.toml` for parsing 
 Mojo v26.2 deprecated the `fn` keyword. New examples should use `def`:
 
 ```mojo
-def main() raises:
+def main():
     print("Hello, world!")
 ```
 

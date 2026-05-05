@@ -7,5 +7,5 @@ authors = ["zed-mojo contributors"]
 repository = "https://github.com/USBashka/zed-mojo-syntax"
 
 [grammars.mojo]
-repository = "https://github.com/lsh/tree-sitter-mojo"
-commit = "03966fb3f209bea86844aab3bd0f2158a5a8bb8d"
+repository = "https://github.com/USBashka/tree-sitter-mojo-zed"
+commit = "0a10ea2bc42c602a5e965da3b0c2e36d36f4b720"
